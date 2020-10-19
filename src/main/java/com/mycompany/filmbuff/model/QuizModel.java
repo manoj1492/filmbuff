@@ -5,18 +5,27 @@ import java.time.LocalDateTime;
 
 public class QuizModel {
 
-    private Integer categoryId;
+    private Integer id;
+    private String categoryName;
     private Integer timeLimit;
     private LocalDate date;
     private LocalDateTime startTime;
     private Integer createdBy;
 
-    public Integer getCategoryId() {
-        return categoryId;
+    public Integer getId() {
+        return id;
     }
 
-    public void setCategoryId(Integer categoryId) {
-        this.categoryId = categoryId;
+    public void setId(Integer id) {
+        this.id = id;
+    }
+    
+    public String getCategoryName() {
+        return categoryName;
+    }
+
+    public void setCategoryName(String categoryName) {
+        this.categoryName = categoryName;
     }
 
     public Integer getTimeLimit() {
@@ -51,6 +60,5 @@ public class QuizModel {
         this.createdBy = createdBy;
     }
 
-    
     
 }
