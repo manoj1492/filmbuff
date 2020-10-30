@@ -9,10 +9,10 @@ CREATE TABLE `filmbuff`.`quiz_participants` (
   CONSTRAINT `fk_quiz_participants_user`
     FOREIGN KEY (`user_id`)
     REFERENCES `filmbuff`.`user` (`id`)
-    ON DELETE CASCADE
-    ON UPDATE CASCADE,
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION,
   CONSTRAINT `fk_quiz_participants_quiz`
     FOREIGN KEY (`quiz_id`)
     REFERENCES `filmbuff`.`quiz` (`id`)
-    ON DELETE CASCADE
-    ON UPDATE CASCADE);
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION);

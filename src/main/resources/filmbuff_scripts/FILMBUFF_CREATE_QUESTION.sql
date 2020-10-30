@@ -2,7 +2,7 @@
 
 
 CREATE TABLE `filmbuff`.`question` (
-  `id` INT NOT NULL,
+  `id` INT NOT NULL AUTO_INCREMENT,
   `statement` TEXT NULL,
   `category_id` INT NULL,
   PRIMARY KEY (`id`),

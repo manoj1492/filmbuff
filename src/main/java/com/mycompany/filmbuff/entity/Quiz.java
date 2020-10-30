@@ -12,7 +12,6 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
@@ -25,11 +24,6 @@ public class Quiz {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
     private Integer categoryId;
-    
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "categoryId", insertable=false, updatable=false)
-    private Category category;
-
     private Integer timeLimit;
     private LocalDate date;
     private LocalDateTime startTime;
@@ -72,14 +66,6 @@ public class Quiz {
 
     public void setStartTime(LocalDateTime startTime) {
         this.startTime = startTime;
-    }
-
-    public Category getCategory() {
-        return category;
-    }
-
-    public void setCategory(Category category) {
-        this.category = category;
     }
 
     public Integer getCategoryId() {
@@ -127,7 +113,6 @@ public class Quiz {
     public int hashCode() {
         final int prime = 31;
         int result = 1;
-        result = prime * result + ((category == null) ? 0 : category.hashCode());
         result = prime * result + ((categoryId == null) ? 0 : categoryId.hashCode());
         result = prime * result + ((createdBy == null) ? 0 : createdBy.hashCode());
         result = prime * result + ((date == null) ? 0 : date.hashCode());
@@ -148,11 +133,6 @@ public class Quiz {
         if (getClass() != obj.getClass())
             return false;
         Quiz other = (Quiz) obj;
-        if (category == null) {
-            if (other.category != null)
-                return false;
-        } else if (!category.equals(other.category))
-            return false;
         if (categoryId == null) {
             if (other.categoryId != null)
                 return false;

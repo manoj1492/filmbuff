@@ -1,7 +1,13 @@
 package com.mycompany.filmbuff.entity;
 
+import java.util.List;
+
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 @Entity
@@ -12,6 +18,14 @@ public class Category {
     private Integer id;
     private String name;
     private String icon;
+
+    @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = true)
+    @JoinColumn(name = "categoryId")
+    private List<Question> questionList;
+
+    @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = true)
+    @JoinColumn(name = "categoryId")
+    private List<Quiz> quizList;
 
     public Integer getId() {
         return id;
@@ -37,6 +51,21 @@ public class Category {
         this.icon = icon;
     }
 
-    
+    public List<Question> getQuestionList() {
+        return questionList;
+    }
+
+    public void setQuestionList(List<Question> questionList) {
+        this.questionList = questionList;
+    }
+
+    public List<Quiz> getQuizList() {
+        return quizList;
+    }
+
+    public void setQuizList(List<Quiz> quizList) {
+        this.quizList = quizList;
+    }
+
     
 }
