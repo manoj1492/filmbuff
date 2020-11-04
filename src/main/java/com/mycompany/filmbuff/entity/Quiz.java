@@ -36,6 +36,9 @@ public class Quiz {
     @OneToMany( mappedBy = "quizId", cascade=CascadeType.ALL, fetch=FetchType.LAZY)
     private List<QuizParticipant> participants = new ArrayList<QuizParticipant>();
 
+    @OneToMany( mappedBy = "quizId", cascade=CascadeType.ALL, fetch=FetchType.LAZY)
+    private List<QuizQuestion> questions = new ArrayList<QuizQuestion>();
+
     public Integer getId() {
         return id;
     }
@@ -92,6 +95,21 @@ public class Quiz {
         this.owner = owner;
     }
 
+    public List<QuizParticipant> getParticipants() {
+        return participants;
+    }
+
+    public void setParticipants(List<QuizParticipant> participants) {
+        this.participants = participants;
+    }
+
+    public List<QuizQuestion> getQuestions() {
+        return questions;
+    }
+
+    public void setQuestions(List<QuizQuestion> questions) {
+        this.questions = questions;
+    }
     
     public void addParticipant(User participant){
         QuizParticipant quizParticipant = new QuizParticipant(this, participant);

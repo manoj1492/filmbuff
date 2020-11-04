@@ -12,6 +12,9 @@ import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
+import com.mycompany.filmbuff.util.annotations.ValidEnumValue;
+import com.mycompany.filmbuff.util.enums.QuestionTypeEnum;
+
 @Entity
 @Table(name = "question")
 public class Question {
@@ -21,6 +24,8 @@ public class Question {
     private Integer id;
     private String statement;
     private Integer categoryId;
+    
+    @ValidEnumValue(enumClass = QuestionTypeEnum.class)
     private String type;
 
     @OneToMany( mappedBy = "questionId", cascade=CascadeType.ALL, fetch=FetchType.LAZY)

@@ -19,14 +19,13 @@ public class QuestionController {
     private QuestionService questionService;
 
     @PostMapping("")
-    public ResponseEntity<String> saveQuiz(@RequestBody QuestionModel questionModel){
+    public ResponseEntity<String> saveQuestion(@RequestBody QuestionModel questionModel){
         questionService.saveQuestion(questionModel);
 
         var headers = new HttpHeaders();
         headers.add("Responded", "QuestionController");
 
-        return ResponseEntity.ok().headers(headers).build();
+        return ResponseEntity.ok().headers(headers).body("Question created successfully");
     }
 
-    
 }

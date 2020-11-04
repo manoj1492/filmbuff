@@ -20,6 +20,7 @@ public class QuizParticipant{
 
     private Integer correctCount;
     private Boolean isWinner;
+    private Boolean isEntered;
 
     public QuizParticipant(){
         
@@ -59,6 +60,14 @@ public class QuizParticipant{
 
     public void setIsWinner(Boolean isWinner) {
         this.isWinner = isWinner;
+    }
+
+    public Boolean getIsEntered() {
+        return isEntered;
+    }
+
+    public void setIsEntered(Boolean isEntered) {
+        this.isEntered = isEntered;
     }
 
 }
