@@ -22,8 +22,8 @@ public class User {
     private String firstname;
     private String lastname;
     private String email;
-    private String username;
     private String password;
+    private Boolean enabled;
 
     @OneToMany( mappedBy = "userId", cascade=CascadeType.ALL, fetch=FetchType.LAZY)
     private List<QuizParticipant> participants = new ArrayList<QuizParticipant>();
@@ -60,20 +60,20 @@ public class User {
         this.email = email;
     }
 
-    public String getUsername() {
-        return username;
-    }
-
-    public void setUsername(String username) {
-        this.username = username;
-    }
-
     public String getPassword() {
         return password;
     }
 
     public void setPassword(String password) {
         this.password = password;
+    }
+
+    public Boolean getEnabled() {
+        return enabled;
+    }
+
+    public void setEnabled(Boolean enabled) {
+        this.enabled = enabled;
     }
 
     public List<QuizParticipant> getParticipants() {
@@ -89,12 +89,12 @@ public class User {
         final int prime = 31;
         int result = 1;
         result = prime * result + ((email == null) ? 0 : email.hashCode());
+        result = prime * result + ((enabled == null) ? 0 : enabled.hashCode());
         result = prime * result + ((firstname == null) ? 0 : firstname.hashCode());
         result = prime * result + ((id == null) ? 0 : id.hashCode());
         result = prime * result + ((lastname == null) ? 0 : lastname.hashCode());
         result = prime * result + ((participants == null) ? 0 : participants.hashCode());
         result = prime * result + ((password == null) ? 0 : password.hashCode());
-        result = prime * result + ((username == null) ? 0 : username.hashCode());
         return result;
     }
 
@@ -111,6 +111,11 @@ public class User {
             if (other.email != null)
                 return false;
         } else if (!email.equals(other.email))
+            return false;
+        if (enabled == null) {
+            if (other.enabled != null)
+                return false;
+        } else if (!enabled.equals(other.enabled))
             return false;
         if (firstname == null) {
             if (other.firstname != null)
@@ -137,14 +142,10 @@ public class User {
                 return false;
         } else if (!password.equals(other.password))
             return false;
-        if (username == null) {
-            if (other.username != null)
-                return false;
-        } else if (!username.equals(other.username))
-            return false;
         return true;
     }
 
+   
 
     
 }

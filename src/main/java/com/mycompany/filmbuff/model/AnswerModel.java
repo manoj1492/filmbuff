@@ -39,6 +39,4 @@ public class AnswerModel {
         this.isCorrect = isCorrect;
     }
 
-    
-    
 }

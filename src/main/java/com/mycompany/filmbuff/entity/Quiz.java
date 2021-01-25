@@ -28,6 +28,7 @@ public class Quiz {
     private LocalDate date;
     private LocalDateTime startTime;
     private Integer createdBy;
+    private Integer questionLimit;
 
     @OneToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "createdBy", insertable=false, updatable=false)
@@ -36,7 +37,7 @@ public class Quiz {
     @OneToMany( mappedBy = "quizId", cascade=CascadeType.ALL, fetch=FetchType.LAZY)
     private List<QuizParticipant> participants = new ArrayList<QuizParticipant>();
 
-    @OneToMany( mappedBy = "quizId", cascade=CascadeType.ALL, fetch=FetchType.LAZY)
+    @OneToMany( mappedBy = "quizId", cascade=CascadeType.ALL, fetch=FetchType.EAGER)
     private List<QuizQuestion> questions = new ArrayList<QuizQuestion>();
 
     public Integer getId() {
@@ -86,6 +87,15 @@ public class Quiz {
     public void setCreatedBy(Integer createdBy) {
         this.createdBy = createdBy;
     }
+
+    public Integer getQuestionLimit() {
+        return questionLimit;
+    }
+
+    public void setQuestionLimit(Integer questionLimit) {
+        this.questionLimit = questionLimit;
+    }
+    
 
     public User getOwner() {
         return owner;

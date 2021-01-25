@@ -2,8 +2,17 @@ package com.mycompany.filmbuff.model;
 
 public class CategoryModel {
 
+    private Integer id;
     private String name;
     private String icon;
+
+    public Integer getId() {
+        return id;
+    }
+
+    public void setId(Integer id) {
+        this.id = id;
+    }
 
     public String getName() {
         return name;
@@ -20,5 +29,5 @@ public class CategoryModel {
     public void setIcon(String icon) {
         this.icon = icon;
     }
-    
+
 }

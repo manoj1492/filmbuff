@@ -6,6 +6,7 @@ CREATE TABLE `filmbuff`.`quiz_participants` (
   `correct_count` INT NULL,
   `is_winner` TINYINT NULL,
   `is_entered` TINYINT NULL,
+  PRIMARY KEY (`user_id`, `quiz_id`),
   INDEX `fk_quiz_participants_quiz_idx` (`quiz_id` ASC) VISIBLE,
   CONSTRAINT `fk_quiz_participants_user`
     FOREIGN KEY (`user_id`)

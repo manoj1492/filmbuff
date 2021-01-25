@@ -1,13 +1,15 @@
 package com.mycompany.filmbuff.service;
 
-import java.io.FileNotFoundException;
-import java.io.IOException;
+import java.time.Duration;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.atomic.AtomicInteger;
 
 import com.mycompany.filmbuff.entity.Answer;
 import com.mycompany.filmbuff.entity.Category;
 import com.mycompany.filmbuff.entity.Question;
+import com.mycompany.filmbuff.entity.QuestionAnswer;
 import com.mycompany.filmbuff.entity.Quiz;
 import com.mycompany.filmbuff.entity.QuizParticipant;
 import com.mycompany.filmbuff.entity.QuizQuestion;
@@ -20,7 +22,11 @@ import com.mycompany.filmbuff.repository.CategoryRepository;
 import com.mycompany.filmbuff.repository.QuestionRepository;
 import com.mycompany.filmbuff.repository.QuizRepository;
 import com.mycompany.filmbuff.repository.UserRepository;
+import com.mycompany.filmbuff.util.Constants;
+import com.mycompany.filmbuff.util.enums.QuizStates;
+import com.mycompany.filmbuff.util.helper.QuizScheduler;
 
+import org.quartz.SchedulerException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.BeanUtils;
@@ -49,25 +55,37 @@ public class QuizService {
     @Autowired
     private SimpMessagingTemplate simpMessagingTemplate;
 
-    private static final Logger logger = LoggerFactory.getLogger(QuizService.class);
+    @Autowired
+    private QuizScheduler scheduler;
 
+    private static Logger logger = LoggerFactory.getLogger(QuizService.class);
+
+    //TODO: User id is 1 but need to change it when fetching user info from spring security context
     public List<QuizModel> getAllQuizzes(String categoryId) {
         List<QuizModel> quizModels = new ArrayList<QuizModel>();
         var it = quizRepository.findByCategoryId(Integer.parseInt(categoryId));
         it.forEach(e -> {
             QuizModel quizModel = new QuizModel();
             BeanUtils.copyProperties(e, quizModel);
+            e.getParticipants().forEach(participant -> {
+                if(participant.getUserId().equals(1))
+                    quizModel.setIsRegistered(true);
+            });
             quizModels.add(quizModel);
         });
 
         return quizModels;
     }
 
-    public void saveQuiz(QuizModel quizModel) throws FileNotFoundException, IOException{
+    public void saveQuiz(QuizModel quizModel) throws SchedulerException {
         Quiz quiz = new Quiz();
         BeanUtils.copyProperties(quizModel, quiz);
         Category category = categoryRepository.findByName(quizModel.getCategoryName());
         quiz.setCategoryId(category.getId());
+        Quiz savedQuiz = quizRepository.save(quiz);
+
+        // Schedule a job to publish questions for this quiz
+        scheduler.scheduleQuiz(savedQuiz);
     }
 
     public void addParticipant(String quizId){
@@ -121,10 +139,10 @@ public class QuizService {
         
     }
 
-    public List<QuestionModel> publishQuestions(String quizId){
+    public void publishQuestions(String quizId){
         //Fetch a set of questions per quiz to send to a websocket
         Integer savedQuizId = Integer.parseInt(quizId);
-        Quiz quiz = quizRepository.getOne(savedQuizId);
+        Quiz quiz = quizRepository.findById(savedQuizId).get();
         List<QuestionModel> questions = new ArrayList<QuestionModel>();
         quiz.getQuestions().forEach(quizQuestion -> {
             QuestionModel questionModel = new QuestionModel();
@@ -141,9 +159,41 @@ public class QuizService {
             questions.add(questionModel);
         });
 
-        // Publish messages to Client UI through Websocket
-        simpMessagingTemplate.convertAndSend("/topic/quiz", questions);
+        // Publish questions to Client UI through Websocket
+        LocalDateTime currentTime = LocalDateTime.now();
+        Duration duration = Duration.between(quiz.getStartTime(), currentTime);
+        int questionNumber = (int) (duration.toSeconds() / Constants.TIME_INTERVAL);
+
+        if(duration.toSeconds() >= quiz.getTimeLimit() * 60){
+            simpMessagingTemplate.convertAndSend("/topic/quiz", QuizStates.COMPLETED);
+        }
+
+        logger.info("Duration:" + duration + ", QuestionNumber: "+ questionNumber);
+        simpMessagingTemplate.convertAndSend("/topic/quiz", questions.get(questionNumber));
         
-        return questions;
+    }
+
+    public void scheduleQuiz(QuizModel quizModel) throws SchedulerException {
+
+        Quiz quiz = quizRepository.getOne(quizModel.getId());
+        BeanUtils.copyProperties(quizModel, quiz);
+        quizRepository.save(quiz);
+        scheduler.scheduleQuiz(quiz);
+
+    }
+
+    public Integer showResults(List<QuestionAnswer> answeredQuestions){
+        
+        AtomicInteger correctCount = new AtomicInteger();
+        answeredQuestions.forEach(question -> {
+            Question savedQuestion = questionRepository.findById(question.getQuestionId()).get();
+            savedQuestion.getAnswers().forEach(answer -> {
+                if(question.getAnswerId() != null && answer.getAnswerId().equals(question.getAnswerId()) && answer.getIsCorrect()){
+                            correctCount.incrementAndGet();
+                }
+            });
+        });
+
+        return correctCount.get();
     }
 }

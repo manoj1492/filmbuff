@@ -11,6 +11,8 @@ public class QuizModel {
     private LocalDate date;
     private LocalDateTime startTime;
     private Integer createdBy;
+    private Integer questionLimit;
+    private Boolean isRegistered;
 
     public Integer getId() {
         return id;
@@ -60,5 +62,22 @@ public class QuizModel {
         this.createdBy = createdBy;
     }
 
+    public Integer getQuestionLimit() {
+        return questionLimit;
+    }
+
+    public void setQuestionLimit(Integer questionLimit) {
+        this.questionLimit = questionLimit;
+    }
+
+    public Boolean getIsRegistered() {
+        return isRegistered;
+    }
+
+    public void setIsRegistered(Boolean isRegistered) {
+        this.isRegistered = isRegistered;
+    }
+
+    
     
 }

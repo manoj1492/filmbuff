@@ -28,7 +28,7 @@ public class Question {
     @ValidEnumValue(enumClass = QuestionTypeEnum.class)
     private String type;
 
-    @OneToMany( mappedBy = "questionId", cascade=CascadeType.ALL, fetch=FetchType.LAZY)
+    @OneToMany( mappedBy = "questionId", cascade=CascadeType.ALL, fetch=FetchType.EAGER)
     private List<QuestionAnswer> answers = new ArrayList<QuestionAnswer>();
 
     public Integer getId() {
