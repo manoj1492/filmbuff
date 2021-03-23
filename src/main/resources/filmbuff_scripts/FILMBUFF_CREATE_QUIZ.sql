@@ -1,6 +1,6 @@
 #---------CREATE TABLE QUIZ-----------#
 
-
+DROP TABLE IF EXISTS `quiz`;
 CREATE TABLE `filmbuff`.`quiz` (
   `id` INT NOT NULL AUTO_INCREMENT,
   `category_id` INT NULL,

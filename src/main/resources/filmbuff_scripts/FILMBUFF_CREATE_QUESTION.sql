@@ -1,6 +1,6 @@
 #---------CREATE TABLE QUESTION-----------#
 
-
+DROP TABLE IF EXISTS `question`;
 CREATE TABLE `filmbuff`.`question` (
   `id` INT NOT NULL AUTO_INCREMENT,
   `statement` TEXT NULL,

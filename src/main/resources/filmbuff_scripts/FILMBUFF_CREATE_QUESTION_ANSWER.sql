@@ -1,5 +1,6 @@
 #---------CREATE TABLE QUESTION_ANSWER-----------#
 
+DROP TABLE IF EXISTS `question_answer`;
 CREATE TABLE `filmbuff`.`question_answer` (
   `question_id` INT NOT NULL,
   `answer_id` INT NOT NULL,

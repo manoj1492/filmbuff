@@ -1,5 +1,6 @@
 #---------CREATE TABLE QUIZ_PARTICIPANTS-----------#
 
+DROP TABLE IF EXISTS `quiz_participants`;
 CREATE TABLE `filmbuff`.`quiz_participants` (
   `user_id` INT NOT NULL,
   `quiz_id` INT NOT NULL,

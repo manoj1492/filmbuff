@@ -1,7 +1,8 @@
 #---------CREATE TABLE USER-----------#
 
-CREATE TABLE `filmbuff`.`new_table` (
-  `id` INT NOT NULL,
+DROP TABLE IF EXISTS `user`;
+CREATE TABLE `filmbuff`.`user` (
+  `id` INT NOT NULL AUTO_INCREMENT,
   `firstname` VARCHAR(45) NULL,
   `lastname` VARCHAR(45) NULL,
   `email` VARCHAR(50) NULL,
