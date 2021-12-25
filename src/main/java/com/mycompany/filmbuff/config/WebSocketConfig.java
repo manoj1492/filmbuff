@@ -18,6 +18,16 @@ public class WebSocketConfig implements WebSocketMessageBrokerConfigurer{
 
     @Override
     public void registerStompEndpoints(StompEndpointRegistry registry) {
-        registry.addEndpoint("/websocket").setAllowedOrigins("*").withSockJS();
-    }
+        registry
+        .addEndpoint("/websocket")
+        .setAllowedOriginPatterns("*")
+        .withSockJS();
+;    }
+    
+//    @Bean
+//    public HandshakeInterceptor handShakeInterceptor() {
+//		HandshakeInterceptor interceptor =  
+//				new OriginHandshakeInterceptor(Collections.singletonList("*"));
+//		return interceptor;
+//    }
 }
