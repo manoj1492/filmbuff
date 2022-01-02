@@ -25,7 +25,7 @@ public class QuizParticipant{
     public QuizParticipant(){
         
     }
-    public QuizParticipant(Quiz hostedQuiz, User participant) {
+    public QuizParticipant(Quiz hostedQuiz, Users participant) {
         this.userId = participant.getId();
         this.quizId = hostedQuiz.getId();
     }

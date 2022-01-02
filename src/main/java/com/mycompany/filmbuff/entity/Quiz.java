@@ -32,7 +32,7 @@ public class Quiz {
 
     @OneToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "createdBy", insertable=false, updatable=false)
-    private User owner;
+    private Users owner;
 
     @OneToMany( mappedBy = "quizId", cascade=CascadeType.ALL, fetch=FetchType.LAZY)
     private List<QuizParticipant> participants = new ArrayList<QuizParticipant>();
@@ -97,11 +97,11 @@ public class Quiz {
     }
     
 
-    public User getOwner() {
+    public Users getOwner() {
         return owner;
     }
 
-    public void setOwner(User owner) {
+    public void setOwner(Users owner) {
         this.owner = owner;
     }
 
@@ -121,13 +121,13 @@ public class Quiz {
         this.questions = questions;
     }
     
-    public void addParticipant(User participant){
+    public void addParticipant(Users participant){
         QuizParticipant quizParticipant = new QuizParticipant(this, participant);
         participants.add(quizParticipant);
         //participant.getParticipants().add(quizParticipant);
 
     }
-    public void removeParticipant(User participant){
+    public void removeParticipant(Users participant){
         this.participants.removeIf(e -> {
             return e.getUserId().equals(participant.getId());
         });

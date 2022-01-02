@@ -13,7 +13,7 @@ import com.mycompany.filmbuff.entity.QuestionAnswer;
 import com.mycompany.filmbuff.entity.Quiz;
 import com.mycompany.filmbuff.entity.QuizParticipant;
 import com.mycompany.filmbuff.entity.QuizQuestion;
-import com.mycompany.filmbuff.entity.User;
+import com.mycompany.filmbuff.entity.Users;
 import com.mycompany.filmbuff.model.AnswerModel;
 import com.mycompany.filmbuff.model.QuestionModel;
 import com.mycompany.filmbuff.model.QuizModel;
@@ -90,7 +90,7 @@ public class QuizService {
 
     public void addParticipant(String quizId){
         //Fetch User Details
-        User user = userRepository.findById(1).get();
+        Users user = userRepository.findById(1).get();
 
         //Fetch Quiz Details
         Quiz quiz = quizRepository.getOne(Integer.parseInt(quizId));
@@ -104,7 +104,7 @@ public class QuizService {
 
     public void enterQuiz(String quizId){
         //Fetch User Details
-        User user = userRepository.findById(1).get();
+        Users user = userRepository.findById(1).get();
 
         //Fetch Quiz Details
         Quiz quiz = quizRepository.getOne(Integer.parseInt(quizId));
